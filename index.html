@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C Language Quiz</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #1e1e1e;
+            color: #ffffff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        .quiz-container {
+            background: #2a2a2a;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+        }
+        .question {
+            font-size: 18px;
+            margin: 15px 0;
+        }
+        .answers label {
+            display: block;
+            padding: 10px;
+            margin: 5px 0;
+            background: #444;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .answers label:hover {
+            background: #666;
+        }
+        button {
+            background: #007BFF;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <h1>C Programming Quiz</h1>
+        <div id="quiz"></div>
+        <button id="next">Next Question</button>
+        <div id="results"></div>
+    </div>
+
+    <script>
+        
+        const quizData = [
+            { question: "What is the correct syntax to declare a variable in C?", answers: { a: "int x;", b: "x = int;", c: "variable x;" }, correct: "a" },
+            { question: "Which of the following is a valid C data type?", answers: { a: "real", b: "int", c: "number" }, correct: "b" },
+            { question: "Which symbol is used for single-line comments in C?", answers: { a: "//", b: "/* */", c: "#" }, correct: "a" },
+            { question: "What is the size of an int in C?", answers: { a: "2 bytes", b: "4 bytes", c: "8 bytes" }, correct: "b" },
+            { question: "Which of these is a looping construct in C?", answers: { a: "for", b: "while", c: "both" }, correct: "c" },
+            { question: "Which function is used to print output in C?", answers: { a: "scanf", b: "printf", c: "print" }, correct: "b" },
+            { question: "What is used to terminate a statement in C?", answers: { a: ";", b: ".", c: ":" }, correct: "a" },
+            { question: "Which keyword is used to define a function in C?", answers: { a: "def", b: "func", c: "void" }, correct: "c" },
+            { question: "What does 'return 0' signify in main()?", answers: { a: "Program ran successfully", b: "Error in execution", c: "Nothing" }, correct: "a" },
+            { question: "Which header file is required for printf()?", answers: { a: "stdio.h", b: "stdlib.h", c: "conio.h" }, correct: "a" }
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+        const quizContainer = document.getElementById('quiz');
+        const nextButton = document.getElementById('next');
+        const resultsContainer = document.getElementById('results');
+
+        function showQuestion() {
+            const q = quizData[currentQuestionIndex];
+            let answers = '';
+            for (const [key, value] of Object.entries(q.answers)) {
+                answers += `<label><input type='radio' name='question' value='${key}'> ${value}</label>`;
+            }
+            quizContainer.innerHTML = `<div class='question'><strong>${q.question}</strong></div><div class='answers'>${answers}</div>`;
+        }
+
+        nextButton.addEventListener('click', () => {
+            const selectedOption = document.querySelector("input[name='question']:checked");
+            if (selectedOption) {
+                if (selectedOption.value === quizData[currentQuestionIndex].correct) {
+                    score++;
+                }
+                if (currentQuestionIndex < quizData.length - 1) {
+                    currentQuestionIndex++;
+                    showQuestion();
+                } else {
+                    quizContainer.style.display = 'none';
+                    resultsContainer.innerHTML = `<h2>Quiz Completed!</h2><p>Your score: ${score} / ${quizData.length}</p>`;
+                    nextButton.style.display = 'none';
+                }
+            }
+        });
+
+        showQuestion();
+
+    </script>
+
+    
+</body>
+</html>
